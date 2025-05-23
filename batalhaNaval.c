@@ -1,60 +1,52 @@
 #include <stdio.h>
 
-#define TAMANHO_TABULEIRO 10
-#define TAMANHO_NAVIO 3
-#define VALOR_AGUA 0
-#define VALOR_NAVIO 3
+#define TAMANHO 10
+#define NAVIO 3
 
 int main() {
-    int tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO];
+    int tabuleiro[TAMANHO][TAMANHO];
 
-    // Inicializa o tabuleiro com água (valor 0)
-    for (int i = 0; i < TAMANHO_TABULEIRO; i++) {
-        for (int j = 0; j < TAMANHO_TABULEIRO; j++) {
-            tabuleiro[i][j] = VALOR_AGUA;
+    // Inicializar o tabuleiro com 0 (água)
+    for (int i = 0; i < TAMANHO; i++) {
+        for (int j = 0; j < TAMANHO; j++) {
+            tabuleiro[i][j] = 0;
         }
     }
 
-    // Coordenadas iniciais do navio horizontal
-    int linha_h = 2;
-    int coluna_h = 4;
+    // Posição inicial dos navios
+    int linha_horizontal = 1, coluna_horizontal = 2; // horizontal
+    int linha_vertical = 4, coluna_vertical = 5;     // vertical
+    int linha_diagonal1 = 0, coluna_diagonal1 = 0;   // diagonal principal
+    int linha_diagonal2 = 0, coluna_diagonal2 = 9;   // diagonal secundária
 
-    // Coordenadas iniciais do navio vertical
-    int linha_v = 5;
-    int coluna_v = 6;
-
-    // Validação simples para garantir que os navios cabem no tabuleiro
-    if (coluna_h + TAMANHO_NAVIO <= TAMANHO_TABULEIRO &&
-        linha_v + TAMANHO_NAVIO <= TAMANHO_TABULEIRO) {
-
-        // Posiciona navio horizontal na linha_h
-        for (int i = 0; i < TAMANHO_NAVIO; i++) {
-            tabuleiro[linha_h][coluna_h + i] = VALOR_NAVIO;
-        }
-
-        // Posiciona navio vertical na coluna_v
-        for (int i = 0; i < TAMANHO_NAVIO; i++) {
-            // Verifica se já existe um navio nessa posição (evita sobreposição)
-            if (tabuleiro[linha_v + i][coluna_v] == VALOR_NAVIO) {
-                printf("Erro: sobreposição de navios detectada.\n");
-                return 1;
-            }
-            tabuleiro[linha_v + i][coluna_v] = VALOR_NAVIO;
-        }
-
-    } else {
-        printf("Erro: coordenadas inválidas para posicionar navios.\n");
-        return 1;
+    // Posicionar navio horizontalmente (tamanho 3)
+    for (int i = 0; i < NAVIO; i++) {
+        tabuleiro[linha_horizontal][coluna_horizontal + i] = 3;
     }
 
-    // Exibe o tabuleiro
-    printf("\nTabuleiro:\n\n");
-    for (int i = 0; i < TAMANHO_TABULEIRO; i++) {
-        for (int j = 0; j < TAMANHO_TABULEIRO; j++) {
+    // Posicionar navio verticalmente (tamanho 3)
+    for (int i = 0; i < NAVIO; i++) {
+        tabuleiro[linha_vertical + i][coluna_vertical] = 3;
+    }
+
+    // Posicionar navio na diagonal principal (tamanho 3)
+    for (int i = 0; i < NAVIO; i++) {
+        tabuleiro[linha_diagonal1 + i][coluna_diagonal1 + i] = 3;
+    }
+
+    // Posicionar navio na diagonal secundária (tamanho 3)
+    for (int i = 0; i < NAVIO; i++) {
+        tabuleiro[linha_diagonal2 + i][coluna_diagonal2 - i] = 3;
+    }
+
+    // Exibir o tabuleiro
+    printf("Tabuleiro Batalha Naval:\\n\\n");
+    for (int i = 0; i < TAMANHO; i++) {
+        for (int j = 0; j < TAMANHO; j++) {
             printf("%d ", tabuleiro[i][j]);
         }
-        printf("\n");
+        printf("\\n");
     }
-    
+
     return 0;
 }
